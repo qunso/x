@@ -1,0 +1,55 @@
+name: sync repo
+on:
+  workflow_dispatch:
+    inputs:
+      keep_tags:
+        description: 'how many tags will keep'
+        required: true
+        default: '10'
+      version:
+        description: 'version number'
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: configure ssh
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+        run: |
+          mkdir -p $HOME/.ssh/
+          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
+          chmod 600 $HOME/.ssh/id_rsa
+          echo 'Host *' > $HOME/.ssh/config
+          echo '  StrictHostKeyChecking no' >> $HOME/.ssh/config
+          echo '  UserKnownHostsFile /dev/null' >> $HOME/.ssh/config
+          chmod 400 $HOME/.ssh/config
+          cat $HOME/.ssh/config
+      - name: get code
+        shell: bash
+        env:
+          SOURCE_REPO_SSH_ADDRESS: ${{secrets.SOURCE_REPO_SSH_ADDRESS}}
+        run: |
+          git config --global user.email "${{ github.repository_owner }}@x.com"
+          git config --global user.name "${{ github.repository_owner }}"
+          cd $HOME
+          git clone --depth 1 "$SOURCE_REPO_SSH_ADDRESS" target
+          cd target
+          git remote set-url origin "git@github.com:$GITHUB_REPOSITORY.git"
+          git commit -m "${{ github.event.inputs.version }}" --amend
+          git fetch --tags
+      - name: tag version
+        shell: bash
+        run: |
+          cd $HOME/target
+          tags=$(git ls-remote --tags --sort=-creatordate -q|awk '{print $2}'|sed  's#refs/tags/##'|grep -v '\^')
+          removes=$(diff -ay --suppress-common-lines <(echo $tags|tr " " "\n"|head -n ${{ github.event.inputs.keep_tags }}) <(echo $tags|tr " " "\n")| sed 's/\s*>.//' || true)
+          echo $removes
+          for tag in $removes; do git push --delete origin $tag; done;
+          git tag -l|xargs git tag -d
+          git tag ${{ github.event.inputs.version }}
+          git push -f
+          git push -f --tags

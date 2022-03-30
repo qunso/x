@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     style="margin: auto; background: transparent; display: block;" width="64px" height="64px"
+     viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+    <path d="M20 25L80 25L80 75L20 75Z" fill="#def0dc" stroke="#858585" stroke-width="3"></path>
+    <path d="M50 25L80 25L80 75L50 75" fill="#def0dc" stroke="#858585" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+        <animate attributeName="d" dur="0.9174311926605504s" repeatCount="indefinite" begin="0s"
+                 keyTimes="0;0.5;0.501;1"
+                 values="M50 25L80 25L80 75L50 75;M50 25L50 20L50 80L50 75;M50 25L80 25L80 75L50 75;M50 25L80 25L80 75L50 75"></animate>
+        <animate attributeName="opacity" dur="0.9174311926605504s" repeatCount="indefinite" begin="0s"
+                 keyTimes="0;0.5;0.5001;1" values="1;1;0;0"></animate>
+    </path>
+    <path d="M50 25L80 25L80 75L50 75" fill="#def0dc" stroke="#858585" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+        <animate attributeName="d" dur="0.9174311926605504s" repeatCount="indefinite" begin="-0.15229357798165138s"
+                 keyTimes="0;0.5;0.501;1"
+                 values="M50 25L80 25L80 75L50 75;M50 25L50 20L50 80L50 75;M50 25L80 25L80 75L50 75;M50 25L80 25L80 75L50 75"></animate>
+        <animate attributeName="opacity" dur="0.9174311926605504s" repeatCount="indefinite"
+                 begin="-0.15229357798165138s" keyTimes="0;0.5;0.5001;1" values="1;1;0;0"></animate>
+    </path>
+    <path d="M50 25L80 25L80 75L50 75" fill="#def0dc" stroke="#858585" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+        <animate attributeName="d" dur="0.9174311926605504s" repeatCount="indefinite" begin="-0.30275229357798167s"
+                 keyTimes="0;0.5;0.501;1"
+                 values="M50 25L80 25L80 75L50 75;M50 25L50 20L50 80L50 75;M50 25L80 25L80 75L50 75;M50 25L80 25L80 75L50 75"></animate>
+        <animate attributeName="opacity" dur="0.9174311926605504s" repeatCount="indefinite"
+                 begin="-0.30275229357798167s" keyTimes="0;0.5;0.5001;1" values="1;1;0;0"></animate>
+    </path>
+    <path d="M50 25L80 25L80 75L50 75" fill="#def0dc" stroke="#858585" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+        <animate attributeName="d" dur="0.9174311926605504s" repeatCount="indefinite" begin="-0.30275229357798167s"
+                 keyTimes="0;0.499;0.5;1"
+                 values="M50 25L20 25L20 75L50 75;M50 25L20 25L20 75L50 75;M50 25L50 20L50 80L50 75;M50 25L20 25L20 75L50 75"></animate>
+        <animate attributeName="opacity" dur="0.9174311926605504s" repeatCount="indefinite"
+                 begin="-0.30275229357798167s" keyTimes="0;0.4999;0.5;1" values="0;0;1;1"></animate>
+    </path>
+    <path d="M50 25L80 25L80 75L50 75" fill="#def0dc" stroke="#858585" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+        <animate attributeName="d" dur="0.9174311926605504s" repeatCount="indefinite" begin="-0.15229357798165138s"
+                 keyTimes="0;0.499;0.5;1"
+                 values="M50 25L20 25L20 75L50 75;M50 25L20 25L20 75L50 75;M50 25L50 20L50 80L50 75;M50 25L20 25L20 75L50 75"></animate>
+        <animate attributeName="opacity" dur="0.9174311926605504s" repeatCount="indefinite"
+                 begin="-0.15229357798165138s" keyTimes="0;0.4999;0.5;1" values="0;0;1;1"></animate>
+    </path>
+    <path d="M50 25L80 25L80 75L50 75" fill="#def0dc" stroke="#858585" stroke-width="3" stroke-linejoin="round"
+          stroke-linecap="round">
+        <animate attributeName="d" dur="0.9174311926605504s" repeatCount="indefinite" begin="0s"
+                 keyTimes="0;0.499;0.5;1"
+                 values="M50 25L20 25L20 75L50 75;M50 25L20 25L20 75L50 75;M50 25L50 20L50 80L50 75;M50 25L20 25L20 75L50 75"></animate>
+        <animate attributeName="opacity" dur="0.9174311926605504s" repeatCount="indefinite" begin="0s"
+                 keyTimes="0;0.4999;0.5;1" values="0;0;1;1"></animate>
+    </path>
+</svg>

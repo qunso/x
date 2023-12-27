@@ -1,0 +1,60 @@
+name: sync repo
+on:
+  workflow_dispatch:
+    inputs:
+      keep_tags:
+        description: 'how many tags will keep'
+        required: true
+        default: '10'
+      version:
+        description: 'version number'
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: configure ssh
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+        run: |
+          mkdir -p $HOME/.ssh/
+          echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
+          chmod 600 $HOME/.ssh/id_rsa
+          echo 'Host *' > $HOME/.ssh/config
+          echo '  StrictHostKeyChecking no' >> $HOME/.ssh/config
+          echo '  UserKnownHostsFile /dev/null' >> $HOME/.ssh/config
+          chmod 400 $HOME/.ssh/config
+          cat $HOME/.ssh/config
+      - name: get code
+        shell: bash
+        env:
+          SOURCE_REPO_SSH_ADDRESS: ${{secrets.SOURCE_REPO_SSH_ADDRESS}}
+        # 克隆远程分支
+        # 拿到history为1的commit 然后对这个commit进行重新提交改写历史
+        # 替换origin为当前仓库并拿到当前仓库的tags 用来显示下文ls-remote
+        run: |
+          git config --global user.email "${{ github.repository_owner }}@x.com"
+          git config --global user.name "${{ github.repository_owner }}"
+          cd $HOME
+          git clone --depth 1 "$SOURCE_REPO_SSH_ADDRESS" target
+          cd target
+          git remote set-url origin "git@github.com:$GITHUB_REPOSITORY.git"
+          git commit -m "${{ github.event.inputs.version }}" --amend
+          git fetch --tags -f
+      - name: tag version
+        shell: bash
+        # 拿到tags之后根据创建时间倒叙只保留前10个tag其余的删掉
+        # 本地分支全部删掉避免后续Push又推上去 然后用当前代码打新tag
+        run: |
+          cd $HOME/target
+          tags=$(git ls-remote --tags --sort=-creatordate -q|awk '{print $2}'|sed  's#refs/tags/##'|grep -v '\^')
+          removes=$(diff -ay --suppress-common-lines <(echo $tags|tr " " "\n"|head -n ${{ github.event.inputs.keep_tags }}) <(echo $tags|tr " " "\n")| sed 's/\s*>.//' || true)
+          echo $removes
+          for tag in $removes; do git push --delete origin $tag; done;
+          git tag -l|xargs git tag -d
+          git tag ${{ github.event.inputs.version }}
+          git push -f
+          git push -f --tags
